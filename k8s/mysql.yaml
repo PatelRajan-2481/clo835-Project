@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: fp
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: mysql }
+  template:
+    metadata:
+      labels: { app: mysql }
+    spec:
+      serviceAccountName: clo835_sa
+      imagePullSecrets:
+      - name: ecr-creds
+      containers:
+      - name: mysql
+        image: <ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/clo835-mysql:latest
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef: { name: db-secret, key: DBPWD }
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef: { name: app-config, key: DBNAME }
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: mysql-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: fp
+spec:
+  selector: { app: mysql }
+  ports:
+  - port: 3306
+    targetPort: 3306
+  type: ClusterIP

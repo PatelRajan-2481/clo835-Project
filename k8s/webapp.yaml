@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+  namespace: fp
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: webapp }
+  template:
+    metadata:
+      labels: { app: webapp }
+    spec:
+      serviceAccountName: clo835_sa
+      imagePullSecrets:
+      - name: ecr-creds
+      containers:
+      - name: webapp
+        image: <ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/clo835-webapp:latest
+        ports:
+        - containerPort: 81
+        envFrom:
+        - configMapRef: { name: app-config }
+        - secretRef:    { name: db-secret }
+        - secretRef:    { name: aws-secret }
+        readinessProbe:
+          httpGet: { path: "/", port: 81 }
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        livenessProbe:
+          httpGet: { path: "/", port: 81 }
+          initialDelaySeconds: 30
+          periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp
+  namespace: fp
+spec:
+  selector: { app: webapp }
+  ports:
+  - port: 81
+    targetPort: 81
+  type: LoadBalancer

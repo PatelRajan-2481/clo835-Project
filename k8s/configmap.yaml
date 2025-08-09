@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: fp
+data:
+  BG_S3_BUCKET: "clo835-rajan-bg"
+  BG_S3_KEY: "images/bg1.jpg"
+  GROUP_NAME: "Rajan Patel"
+  GROUP_SLOGAN: "Never Give Up!! "
+  DBHOST: "mysql"
+  DBNAME: "employees"
+  DBPORT: "3306"
+  AWS_REGION: "us-east-1"
