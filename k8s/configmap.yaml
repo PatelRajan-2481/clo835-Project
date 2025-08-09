@@ -4,11 +4,15 @@ metadata:
   name: app-config
   namespace: fp
 data:
+  # background image location in private S3
   BG_S3_BUCKET: "clo835-rajan-bg"
   BG_S3_KEY: "images/bg1.jpg"
+
+  # header text
   GROUP_NAME: "Rajan Patel"
-  GROUP_SLOGAN: "Never Give Up!! "
+  GROUP_SLOGAN: "Never Give Up!!"
+
+  # DB connection info (hostname via svc name)
   DBHOST: "mysql"
-  DBNAME: "employees"
   DBPORT: "3306"
-  AWS_REGION: "us-east-1"
+  DBNAME: "employees"
