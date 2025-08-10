@@ -11,17 +11,17 @@ spec:
     metadata:
       labels: { app: webapp }
     spec:
-      serviceAccountName: clo835_sa
+      serviceAccountName: clo835-sa
       imagePullSecrets:
       - name: ecr-creds
       containers:
       - name: webapp
-        image: <ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/clo835-webapp:latest
+        image: 894144679553.dkr.ecr.us-east-1.amazonaws.com/clo835-webapp:latest
         ports:
         - containerPort: 81
         envFrom:
         - configMapRef: { name: app-config }
-        - secretRef:    { name: db-secret }
+        - secretRef:    { name: db-secret }  
         - secretRef:    { name: aws-secret }
         readinessProbe:
           httpGet: { path: "/", port: 81 }

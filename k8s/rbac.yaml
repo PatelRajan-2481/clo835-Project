@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: clo835_sa
+  name: clo835-sa
   namespace: fp
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -9,19 +9,19 @@ kind: ClusterRole
 metadata:
   name: CLO835
 rules:
-- apiGroups: [""]
-  resources: ["namespaces"]
-  verbs: ["get", "list", "create"]
+  - apiGroups: [""]
+    resources: ["namespaces"]
+    verbs: ["get", "list", "create"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: clo835-binding
+subjects:
+  - kind: ServiceAccount
+    name: clo835-sa   
+    namespace: fp
 roleRef:
-  apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: CLO835
-subjects:
-- kind: ServiceAccount
-  name: clo835_sa
-  namespace: fp
+  apiGroup: rbac.authorization.k8s.io

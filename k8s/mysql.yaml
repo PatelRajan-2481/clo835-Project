@@ -11,21 +11,25 @@ spec:
     metadata:
       labels: { app: mysql }
     spec:
-      serviceAccountName: clo835_sa
+      serviceAccountName: clo835-sa
       imagePullSecrets:
       - name: ecr-creds
       containers:
       - name: mysql
-        image: <ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/clo835-mysql:latest
+        image: 894144679553.dkr.ecr.us-east-1.amazonaws.com/clo835-mysql:latest
         ports:
         - containerPort: 3306
         env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
-            secretKeyRef: { name: db-secret, key: DBPWD }
+            secretKeyRef:
+              name: db-secret
+              key: MYSQL_ROOT_PASSWORD
         - name: MYSQL_DATABASE
           valueFrom:
-            configMapKeyRef: { name: app-config, key: DBNAME }
+            secretKeyRef:
+              name: db-secret
+              key: MYSQL_DATABASE
         volumeMounts:
         - name: data
           mountPath: /var/lib/mysql

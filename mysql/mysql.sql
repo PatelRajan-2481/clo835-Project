@@ -10,5 +10,5 @@ CREATE TABLE IF NOT EXISTS employee(
 );
 
 INSERT INTO employee VALUES ('1','Rajan','Patel','Smile','local');
-INSERT INTO employee VALUES ('1','Aastha','Oza','Empathy','alien');
+INSERT INTO employee VALUES ('2','Aastha','Oza','Empathy','alien');
 SELECT * FROM employee;
